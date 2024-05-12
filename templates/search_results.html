@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results</title>
+    <style>
+        .container {
+        max-width: 900px; /* Adjust this value as needed */
+        margin: 0 auto; /* Center the container horizontally */
+        padding: 10px; /* Add some padding around the container */
+        
+    }
+      .nd {
+        display: flex;
+    }
+    .nd div {
+        margin: 10px;
+    }
+    .nd img {
+        width: 250px; /* Adjust this value as needed */
+        height: 200px; /* Adjust this value as needed */
+        object-fit: cover;
+    
+        
+        
+        border-radius: 5px;
+    }
+    .nd h2 {
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+    }
+    .nd h4 {
+        font-size: 1rem;
+        color: #555;
+    }
+    .nd h2 a{
+        text-decoration: none;
+    
+    }
+    </style>
+</head>
+<body>
+    <h1>Search Results</h1>
+    <p>{{ num_results }} Kết quả tìm kiếm</p>
+        {% for index, row in search_results.iterrows() %}
+            
+           <div class="container">
+                <div style="display: flex;" class="nd">
+                    <div>         
+                        <img src="{{ row['Image'] }}" alt="" >
+                    </div>
+                    <div>
+                        <h2><a href="/article/{{ index }}">{{ row['Title'] }}</a></h2>
+                        <h4>{{ row['Content'] }}</h4>
+                    </div>
+               </div>
+           </div>
+            
+        {% endfor %}
+  
+</body>
+</html>

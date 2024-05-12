@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Article List</title>
+    <style>
+        /* Reset default margin and padding */
+body, h1, h2, p {
+    max-width: 1000px; /* Adjust this value as needed */
+    margin: 0 auto; /* Center the container horizontally */
+    padding: 10px;
+}
+
+body {
+    font-family: Arial, sans-serif;
+}
+
+#search-form {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+form {
+    display: inline-block;
+
+}
+
+input[type="text"] {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+button[type="submit"] {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#articles {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 0 20px;
+}
+
+.article {
+    width: 45%; /* Adjust as needed */
+    margin-bottom: 20px;
+    background-color: #fff;
+    
+   border-radius: 2px #fff;
+}
+
+.article img {
+    width: 100%;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+}
+
+.article h2 {
+    padding: 10px;
+    font-size: 18px;
+}
+
+.article p {
+    padding: 10px;
+    font-size: 16px;
+    color: #555;
+}
+a{
+    text-decoration: none;
+
+}
+
+/* Pagination styles */
+#pagination {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .pagination-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 0 5px;
+            border: 2px solid #007bff;
+            border-radius: 25px;
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .pagination-btn:hover {
+            background-color: #007bff;
+            color: #fff;
+        }
+        .pagination-current {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 0 5px;
+            background-color: #007bff;
+            color: #fff;
+            border-radius: 25px;
+        }
+    </style>
+</head>
+<body>
+        <div id="search-form">
+            <form action="/search_results" method="POST">
+                <input type="text" name="search_query" placeholder="Enter your search query">
+                <button type="submit">Search</button>
+            </form>
+        </div>
+    <h1>Article List</h1>
+    
+    <div id="articles">
+        {% for index, row in data.iterrows() %}
+       <div style="display: flex;">
+        <div>
+            <img src="{{ row['Image'] }}" alt="">
+        </div>
+        <div class="article">   <h2><a href="/article/{{ index }}">{{ row['Title'] }}</a></h2>
+         
+            <p>{{ row['Content'] }}</p>
+            <!-- Add more fields as needed -->
+        </div>
+       </div>
+        {% endfor %}
+    </div>
+    <!-- Pagination buttons -->
+    <div id="pagination">
+        {% if page_number > 1 %}
+        <a class="pagination-btn" href="/?page={{ page_number - 1 }}"> <</a>
+        {% endif %}
+        {% for page in pagination_range %}
+            <a class="pagination-btn{% if page == page_number %} pagination-current{% endif %}" href="/?page={{ page }}">{{ page }}</a>
+        {% endfor %}
+        {% if show_next_button %}
+        <a class="pagination-btn" href="/?page={{ page_number + 1 }}">></a>
+        {% endif %}
+    </div>
+</body>
+</html>

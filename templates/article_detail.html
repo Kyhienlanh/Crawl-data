@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ article['Title'] }}</title>
+    <style>
+     
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+        }
+        .container p {
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+        .container img {
+            display: block; 
+            margin: 0 auto; 
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 10px;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <p>Xã hội > {{ article['Category'] }}</p>
+        <h1>{{ article['Title'] }}</h1>
+        <div style="display: flex;">
+            <div>
+                <p><img src="{{ article['Author Image'] }}" alt="Author Image" height="100px" width="30px"> </p>
+            </div>
+            <div>
+                <strong>{{ article['Author'] }}  {{ article['Publish Time'] }}   </strong> 
+            </div>
+        </div>
+        <h3>(Dân trí) {{ article['Content'] }}</h3>
+        <!-- Hiển thị hình ảnh giữa trang và căn giữa -->
+        <div ><img src="{{ article['Image'] }}" alt="{{ article['Title'] }}"></div>
+        <!-- Splitting article content into paragraphs -->
+        {% for paragraph in article['Article Content'].split('\n') %}
+            <p>{{ paragraph }}</p>
+        {% endfor %}
+        <a href="/">Back to Search</a>
+    </div>
+</body>
+</html>
