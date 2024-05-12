@@ -116,16 +116,71 @@ a{
             color: #fff;
             border-radius: 25px;
         }
+        .menu {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #333;
+        }
+
+        .menu li {
+            float: left;
+        }
+
+        .menu li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        .menu li a:hover {
+            background-color: #111;
+        }
     </style>
 </head>
 <body>
-        <div id="search-form">
-            <form action="/search_results" method="POST">
-                <input type="text" name="search_query" placeholder="Enter your search query">
-                <button type="submit">Search</button>
-            </form>
-        </div>
-    <h1>Article List</h1>
+    <ul class="menu">
+        <li><a href="/">Xã hội</a></li>
+        {% for category in categories %}
+        <li><a href="/category/{{ category }}">{{ category }}</a></li>
+        {% endfor %}
+        <li> <a href="/thongke">Thống kê thể loại</a></li>
+    </ul>
+
+
+
+    <div id="search-form">
+        <form action="/search_results" method="POST">
+            <input type="text" name="search_query" placeholder="Enter your search query">
+            <button type="submit">Search</button>
+        </form>
+    </div>
+
+
+
+
+    <h1>10 bài báo mới nhất</h1>
+    <ul>
+        {% for index, row in latest_articles.iterrows() %}
+        <div style="display: flex;">
+            <div>
+                <img src="{{ row['Image'] }}" alt="">
+            </div>
+            <div class="article">   
+                <h2><a href="/article/{{ index }}">{{ row['Title'] }}</a></h2>
+                <p>{{ row['Content'] }}</p>
+            </div>
+           </div>
+        {% endfor %}
+    </ul>
+       
+
+
+
+    <h1>Danh sách bài báo</h1>
     
     <div id="articles">
         {% for index, row in data.iterrows() %}
@@ -133,10 +188,9 @@ a{
         <div>
             <img src="{{ row['Image'] }}" alt="">
         </div>
-        <div class="article">   <h2><a href="/article/{{ index }}">{{ row['Title'] }}</a></h2>
-         
+        <div class="article">  
+            <h2><a href="/article/{{ index }}">{{ row['Title'] }}</a></h2>
             <p>{{ row['Content'] }}</p>
-            <!-- Add more fields as needed -->
         </div>
        </div>
         {% endfor %}

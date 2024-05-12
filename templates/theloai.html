@@ -72,24 +72,21 @@
         <li> <a href="/thongke">Thống kê thể loại</a></li>
     </ul>
 
-
-    <h1>Search Results</h1>
-    <p>{{ num_results }} Kết quả tìm kiếm</p>
-        {% for index, row in search_results.iterrows() %}
-            
-           <div class="container">
-                <div style="display: flex;" class="nd">
-                    <div>         
-                        <img src="{{ row['Image'] }}" alt="" >
-                    </div>
-                    <div>
-                        <h2><a href="/article/{{ index }}">{{ row['Title'] }}</a></h2>
-                        <h4>{{ row['Content'] }}</h4>
-                    </div>
-               </div>
+    <h1>{{category}}</h1>
+    {% for index, row in articles.iterrows() %}
+        <div class="container">
+            <div style="display: flex;" class="nd">
+                <div>         
+                    <img src="{{ row['Image'] }}" alt="" >
+                </div>
+                <div>
+                    <h2><a href="/article/{{ index }}">{{ row['Title'] }}</a></h2>
+                    <h4>{{ row['Content'] }}</h4>
+                </div>
            </div>
-            
-        {% endfor %}   
+       </div>
+    {% endfor %}
+    
   
 </body>
 </html>

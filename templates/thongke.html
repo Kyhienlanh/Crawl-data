@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thống kê thể loại bài báo</title>
+    <style>
+         .menu {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #333;
+        }
+
+        .menu li {
+            float: left;
+        }
+
+        .menu li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        .menu li a:hover {
+            background-color: #111;
+        }
+    </style>
+</head>
+<body>
+    <ul class="menu">
+        <li><a href="/">Xã hội</a></li>
+        {% for category in categories %}
+        <li><a href="/category/{{ category }}">{{ category }}</a></li>
+        {% endfor %}
+        <li> <a href="/thongke">Thống kê thể loại</a></li>
+    </ul>
+
+    <div style="text-align: center;">
+        <h1>Thống kê thể loại bài báo</h1>
+        <img src="data:image/png;base64,{{ plot_url }}" alt="Biểu đồ thống kê thể loại bài báo">
+    </div>
+</body>
+</html>
