@@ -6,7 +6,7 @@
     <title>Article List</title>
     <style>
         /* Reset default margin and padding */
-body, h1, h2, p {
+.bodi , h1, h2, p {
     max-width: 1000px; /* Adjust this value as needed */
     margin: 0 auto; /* Center the container horizontally */
     padding: 10px;
@@ -18,7 +18,7 @@ body {
 
 #search-form {
     margin-bottom: 20px;
-    text-align: center;
+    text-align: right;
 }
 
 form {
@@ -50,6 +50,7 @@ button[type="submit"]:hover {
 h1 {
     text-align: center;
     margin-bottom: 20px;
+    border-bottom: 2px solid #333;
 }
 
 #articles {
@@ -122,10 +123,12 @@ a{
             padding: 0;
             overflow: hidden;
             background-color: #333;
+            display: flex; /* Sử dụng flexbox layout */
+            justify-content: center; /* Canh giữa các mục menu theo chiều ngang */
         }
 
         .menu li {
-            float: left;
+            margin: 0 5px;
         }
 
         .menu li a {
@@ -134,11 +137,92 @@ a{
             text-align: center;
             padding: 14px 16px;
             text-decoration: none;
+            background-color: #333; /* Màu nền của mỗi mục menu */
         }
 
         .menu li a:hover {
             background-color: #111;
         }
+
+
+        /* footer*/
+        footer {
+    background-color: #333;
+    color: #fff;
+    padding: 30px 0; /* Increase padding for better spacing */
+}
+
+.container {
+    max-width: 1200px; /* Adjust container width as needed */
+    margin: 0 auto;
+    padding: 0 20px; /* Add padding to the sides */
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between; /* Distribute columns evenly */
+}
+
+.col-md-4 {
+    flex: 0 0 calc(33.333% - 20px); /* Chiều rộng của cột là 1/3 với margin */
+    max-width: calc(33.333% - 20px); /* Sử dụng max-width để cố định chiều rộng */
+    margin: 0 10px; /* Khoảng cách giữa các cột */
+    box-sizing: border-box; /* Đảm bảo padding và border không làm tăng chiều rộng */
+    text-align: center;
+}
+
+
+
+h3 {
+    font-size: 15px;
+    margin-bottom: 15px;
+
+}
+
+p {
+    font-size: 16px; /* Kích thước phông chữ */
+    line-height: 1.6; /* Chiều cao dòng */
+    
+}
+
+.social-icons {
+    margin-bottom: 30px; /* Khoảng cách dưới */
+    display: flex; /* Sử dụng flexbox */
+    justify-content: center; /* Căn giữa các phần tử con theo chiều ngang */
+}
+
+.social-icons li {
+    margin-right: 15px; /* Khoảng cách phải */
+    list-style: none; /* Loại bỏ dấu chấm li */
+}
+
+.social-icons li:last-child {
+    margin-right: 0; /* Không có khoảng cách phải cho phần tử cuối cùng */
+}
+
+.social-icons a {
+    color: #fff; /* Màu chữ */
+    font-size: 20px; /* Kích thước phông chữ */
+    text-decoration: none; /* Không gạch chân */
+    margin-right: 10px; /* Khoảng cách phải */
+}
+
+
+.footer-menu li {
+    margin-bottom: 10px; /* Increase margin bottom for better spacing */
+}
+
+.footer-menu a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 16px; /* Increase font size for better readability */
+}
+
+.footer-menu a:hover {
+    text-decoration: underline;
+}
+
     </style>
 </head>
 <body>
@@ -149,63 +233,100 @@ a{
         {% endfor %}
         <li> <a href="/thongke">Thống kê thể loại</a></li>
     </ul>
-
-
-
-    <div id="search-form">
-        <form action="/search_results" method="POST">
-            <input type="text" name="search_query" placeholder="Enter your search query">
-            <button type="submit">Search</button>
-        </form>
-    </div>
-
-
-
-
-    <h1>10 bài báo mới nhất</h1>
-    <ul>
-        {% for index, row in latest_articles.iterrows() %}
-        <div style="display: flex;">
+    <div class="bodi">
+        <div id="search-form">
+            <form action="/search_results" method="POST">
+                <input type="text" name="search_query" placeholder="Enter your search query">
+                <button type="submit">Search</button>
+            </form>
+        </div>
+    
+    
+    
+    
+        <h1>10 bài báo mới nhất</h1>
+        <ul>
+            {% for index, row in latest_articles.iterrows() %}
+            <div style="display: flex;">
+                <div>
+                    <img src="{{ row['Image'] }}" alt="">
+                </div>
+                <div class="article">   
+                    <h2><a href="/article/{{ index }}">{{ row['Title'] }}</a></h2>
+                    <p>{{ row['Content'] }}</p>
+                </div>
+               </div>
+            {% endfor %}
+        </ul>
+           
+    
+    
+    
+        <h1>Danh sách bài báo</h1>
+        
+        <div id="articles">
+            {% for index, row in data.iterrows() %}
+           <div style="display: flex;">
             <div>
                 <img src="{{ row['Image'] }}" alt="">
             </div>
-            <div class="article">   
+            <div class="article">  
                 <h2><a href="/article/{{ index }}">{{ row['Title'] }}</a></h2>
                 <p>{{ row['Content'] }}</p>
             </div>
            </div>
-        {% endfor %}
-    </ul>
-       
-
-
-
-    <h1>Danh sách bài báo</h1>
+            {% endfor %}
+        </div>
+        <!-- Pagination buttons -->
+        <div id="pagination">
+            {% if page_number > 1 %}
+            <a class="pagination-btn" href="/?page={{ page_number - 1 }}"> <</a>
+            {% endif %}
+            {% for page in pagination_range %}
+                <a class="pagination-btn{% if page == page_number %} pagination-current{% endif %}" href="/?page={{ page }}">{{ page }}</a>
+            {% endfor %}
+            {% if show_next_button %}
+            <a class="pagination-btn" href="/?page={{ page_number + 1 }}">></a>
+            {% endif %}
+        </div>
+    </div>
     
-    <div id="articles">
-        {% for index, row in data.iterrows() %}
-       <div style="display: flex;">
-        <div>
-            <img src="{{ row['Image'] }}" alt="">
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h3>Giới thiệu</h3>
+                    <p>Chào mừng bạn đến với HKL NEWS - nguồn thông tin đáng tin cậy và đa dạng trên Internet. Chúng tôi cam kết cung cấp những bài viết, tin tức và nội dung phong phú về mọi mặt của cuộc sống, từ tin tức hàng ngày, chính trị, kinh doanh, đến thể thao, văn hóa và giải trí.</p>
+                </div>
+                <div class="col-md-4">
+                    <h3>Liên hệ</h3>
+                    <p>
+                        Địa chỉ: Thủ Dầu Một, Bình Dương<br>
+                        Email: kyhienlanh@gmail.com<br>
+                        Điện thoại: 0943575868
+                    </p>
+                </div>
+    
+                <div class="col-md-4">
+                    <h3>Mạng xã hội</h3>
+                    <ul class="social-icons">
+                        <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+                        <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+                        <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+                        <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
+                    </ul>
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+                    
+                </div>
+            </div>
+            <div class="copyright">
+                &copy; 2024 - Bản quyền thuộc về HKL NEWS
+            </div>
         </div>
-        <div class="article">  
-            <h2><a href="/article/{{ index }}">{{ row['Title'] }}</a></h2>
-            <p>{{ row['Content'] }}</p>
-        </div>
-       </div>
-        {% endfor %}
-    </div>
-    <!-- Pagination buttons -->
-    <div id="pagination">
-        {% if page_number > 1 %}
-        <a class="pagination-btn" href="/?page={{ page_number - 1 }}"> <</a>
-        {% endif %}
-        {% for page in pagination_range %}
-            <a class="pagination-btn{% if page == page_number %} pagination-current{% endif %}" href="/?page={{ page }}">{{ page }}</a>
-        {% endfor %}
-        {% if show_next_button %}
-        <a class="pagination-btn" href="/?page={{ page_number + 1 }}">></a>
-        {% endif %}
-    </div>
+    </footer>
+      
+    
 </body>
+
 </html>
