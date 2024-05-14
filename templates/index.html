@@ -222,8 +222,14 @@ p {
 .footer-menu a:hover {
     text-decoration: underline;
 }
+.page-1 {
+    display: block;
+        }
+.hidden {
+    display: none;
+}
 
-    </style>
+</style>
 </head>
 <body>
     <ul class="menu">
@@ -236,28 +242,41 @@ p {
     <div class="bodi">
         <div id="search-form">
             <form action="/search_results" method="POST">
-                <input type="text" name="search_query" placeholder="Enter your search query">
-                <button type="submit">Search</button>
+                <input type="text" name="search_query" placeholder="Nhập từ khóa tìm kiếm">
+                <button type="submit">Tìm kiếm</button>
             </form>
         </div>
     
     
     
     
-        <h1>10 bài báo mới nhất</h1>
-        <ul>
-            {% for index, row in latest_articles.iterrows() %}
-            <div style="display: flex;">
-                <div>
+        <div id="content">
+            <h1 class="page-1">10 bài báo mới nhất</h1>
+            <ul id="articles-list" >
+                {% for index, row in latest_articles.iterrows() %}
+                <div class="article-container page-1">
                     <img src="{{ row['Image'] }}" alt="">
+                    <div class="article">   
+                        <h2><a href="/article/{{ index }}">{{ row['Title'] }}</a></h2>
+                        <p>{{ row['Content'] }}</p>
+                    </div>
                 </div>
-                <div class="article">   
-                    <h2><a href="/article/{{ index }}">{{ row['Title'] }}</a></h2>
-                    <p>{{ row['Content'] }}</p>
-                </div>
-               </div>
-            {% endfor %}
-        </ul>
+                {% endfor %}
+            </ul>
+        </div>
+        <script>
+            // JavaScript to check if it's the first page
+            // Assuming you have a way to identify the current page, e.g., through a query parameter
+            const urlParams = new URLSearchParams(window.location.search);
+            const page = urlParams.get('page') || '1'; // Default to page 1 if not specified
+    
+            if (page !== '1') {
+                const elements = document.querySelectorAll('.page-1');
+                elements.forEach(element => {
+                    element.classList.add('hidden');
+                });
+            }
+        </script>
            
     
     

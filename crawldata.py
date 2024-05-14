@@ -37,7 +37,7 @@ for page in range(1, 31):
         response_article = requests.get(link)
         soup_article = BeautifulSoup(response_article.content, 'html.parser')
         category_tag = soup_article.find("li", class_="dt-font-Inter dt-float-left before:dt-content-['›'] before:dt-text-xl before:dt-leading-none before:dt-text-ca0a4a8 before:dt-block before:dt-relative before:dt-float-left before:dt-mx-[5px] before:dt-my-0")
-        category = category_tag.find('a').get_text() if category_tag and category_tag.find('a') else "Unknown"
+        category = category_tag.find('a').get_text() if category_tag and category_tag.find('a') else "Khác"
 
         print("Category:", category)
         article_data["Category"] = category
